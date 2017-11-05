@@ -1,8 +1,8 @@
 import React from 'react';
 import Bubble from './Bubble';
-import './App.css';
+import './fiber.css';
 
-export default class App extends React.Component {
+export default class Fiber extends React.Component {
   constructor(props) {
     super(props);
 
@@ -27,13 +27,22 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    setInterval(this.updateProps, this.state.interval);
+    this.interval = setInterval(this.updateProps, this.state.interval);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   renderChild(depth, x, y) {
     if (depth === 0) return;
     return (
-      <Bubble text={this.state.number} x={x + 'px'} y={y + 'px'}>
+      <Bubble
+        key={depth + ',' + x + ',' + y}
+        text={this.state.number}
+        x={x + 'px'}
+        y={y + 'px'}
+      >
         {this.renderChild(
           depth - 1,
           x - this.state.xDiff,
@@ -46,7 +55,7 @@ export default class App extends React.Component {
 
   render() {
     const topx = document.body.clientWidth / 2;
-    const topy = 10;
+    const topy = 60;
 
     const depth = this.state.inLevelDepth,
       xDiff = this.state.xDiff,
