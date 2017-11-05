@@ -10,6 +10,7 @@ export default class App extends React.Component {
     this.state = {
       number: this.number,
       levelDepth: 5,
+      inLevelDepth: 5,
       xDiff: 25,
       yDiff: 25,
       interval: 1000
@@ -47,99 +48,23 @@ export default class App extends React.Component {
     const topx = document.body.clientWidth / 2;
     const topy = 10;
 
-    const depth = this.state.levelDepth,
+    const depth = this.state.inLevelDepth,
       xDiff = this.state.xDiff,
       yDiff = this.state.yDiff;
-    const children1 = this.renderChild(depth, topx, topy);
-    const children2 = this.renderChild(
-      depth,
-      topx - xDiff * (depth - 1),
-      topy + yDiff * (depth - 1)
-    );
-    const children3 = this.renderChild(
-      depth,
-      topx + xDiff * (depth - 1),
-      topy + yDiff * (depth - 1)
-    );
-    const children4 = this.renderChild(
-      depth,
-      topx - xDiff * (depth - 1) * 2,
-      topy + yDiff * (depth - 1) * 2
-    );
-    const children5 = this.renderChild(
-      depth,
-      topx,
-      topy + yDiff * (depth - 1) * 2
-    );
-    const children6 = this.renderChild(
-      depth,
-      topx + xDiff * (depth - 1) * 2,
-      topy + yDiff * (depth - 1) * 2
-    );
-    const children7 = this.renderChild(
-      depth,
-      topx - xDiff * (depth - 1) * 3,
-      topy + yDiff * (depth - 1) * 3
-    );
-    const children8 = this.renderChild(
-      depth,
-      topx - xDiff * (depth - 1),
-      topy + yDiff * (depth - 1) * 3
-    );
-    const children9 = this.renderChild(
-      depth,
-      topx + xDiff * (depth - 1),
-      topy + yDiff * (depth - 1) * 3
-    );
-    const children10 = this.renderChild(
-      depth,
-      topx + xDiff * (depth - 1) * 3,
-      topy + yDiff * (depth - 1) * 3
-    );
-    const children11 = this.renderChild(
-      depth,
-      topx - xDiff * (depth - 1) * 4,
-      topy + yDiff * (depth - 1) * 4
-    );
-    const children12 = this.renderChild(
-      depth,
-      topx - xDiff * (depth - 1) * 2,
-      topy + yDiff * (depth - 1) * 4
-    );
-    const children13 = this.renderChild(
-      depth,
-      topx,
-      topy + yDiff * (depth - 1) * 4
-    );
-    const children14 = this.renderChild(
-      depth,
-      topx + xDiff * (depth - 1) * 2,
-      topy + yDiff * (depth - 1) * 4
-    );
-    const children15 = this.renderChild(
-      depth,
-      topx + xDiff * (depth - 1) * 4,
-      topy + yDiff * (depth - 1) * 4
-    );
 
-    return (
-      <div>
-        {children1}
-        {children2}
-        {children3}
-        {children4}
-        {children5}
-        {children6}
-        {children7}
-        {children8}
-        {children9}
-        {children10}
-        {children11}
-        {children12}
-        {children13}
-        {children14}
-        {children15}
-      </div>
-    );
+    const children = [];
+    for (let i = 1; i <= this.state.levelDepth; ++i) {
+      for (let j = 1; j <= i; ++j) {
+        children.push(
+          this.renderChild(
+            depth,
+            topx + xDiff * (depth - 1) * (1 - i + 2 * (j - 1)),
+            topy + yDiff * (depth - 1) * (i - 1)
+          )
+        );
+      }
+    }
+
+    return <div>{children}</div>;
   }
 }
